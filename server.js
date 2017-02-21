@@ -18,7 +18,7 @@ app.get('/article-two', function(req , res){
 });
 
 app.get('/article-three', function(req , res){
-    res.send("Hello I am poo adi");
+    es.sendFile(path.join(__dirname, 'ui', 'article-two.html'));
 });
 
 app.get('/ui/style.css', function (req, res) {
