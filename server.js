@@ -5,21 +5,35 @@ var path = require('path');
 var app = express();
 app.use(morgan('combined'));
 
-var articleOne = {
-    title :'Article one',
-    heading:'article one',
-    date:'01-01-00',
-    content:` 
-                <p>
-                    This is the content for my first article.This is the content for my first article.This is the content for my first article.This is the content for my first article.This is the content for my first article.This is the content for my first article.This is the content for my first article.This is the content for my first article.This is the content for my first article.This is the content for my first article.This is the content for my first article.This is the content for my first article.This is the content for my first article.This is the content for my first article.This is the content for my first article.
-                </p>
-                <p>
-                    This is the content for my first article.This is the content for my first article.This is the content for my first article.This is the content for my first article.This is the content for my first article.This is the content for my first article.This is the content for my first article.This is the content for my first article.This is the content for my first article.
-                </p>
-                <p>
-                    This is the content for my first article.This is the content for my first article.This is the content for my first article.This is the content for my first article.This is the content for my first article.This is the content for my first article.This is the content for my first article.This is the content for my first article.
-                </p>
-            `
+var articles = {
+    articleOne : {
+            title :'Article one',
+            heading:'article one',
+            date:'01-01-00',
+            content:` 
+                        <p>
+                            This is the content for my first article.This is the content for my first article.This is the content for my first article.This is the content for my first article.This is the content for my first article.This is the content for my first article.This is the content for my first article.This is the content for my first article.This is the content for my first article.This is the content for my first article.This is the content for my first article.This is the content for my first article.This is the content for my first article.This is the content for my first article.This is the content for my first article.
+                        </p>
+                        <p>
+                            This is the content for my first article.This is the content for my first article.This is the content for my first article.This is the content for my first article.This is the content for my first article.This is the content for my first article.This is the content for my first article.This is the content for my first article.This is the content for my first article.
+                        </p>
+                        <p>
+                            This is the content for my first article.This is the content for my first article.This is the content for my first article.This is the content for my first article.This is the content for my first article.This is the content for my first article.This is the content for my first article.This is the content for my first article.
+                        </p>
+                    `
+                },
+    articleTwo :{
+        title :'Article two',
+            heading:'article two',
+            date:'02-02-00',
+            content:` 
+                        <p>
+                            This is the content for my second article.
+                        </p>
+    },
+    articleThree :{
+        
+    }
 };
 
 function createTemplete (data){
@@ -28,12 +42,12 @@ function createTemplete (data){
     var heading=data.heading;
     var content=data.content;
     var htmlTemplete =`
-        <html>
+        <html> 
         <head>
             
             <meta name=viewport content="width-device-width, initial-scale-1" />
             <link href="/ui/style.css" rel="stylesheet" />
-            ${title}
+           <title> ${title} </title>
             
         </head>
         <body>
