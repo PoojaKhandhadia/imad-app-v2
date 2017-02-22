@@ -22,30 +22,36 @@ var content = {
             `
 };
 
-var htmltemplete =`
-    <html>
-    <head>
-        ${title}
-        <meta name=viewport content="width-device-width, initial-scale-1" />
-        <link href="/ui/style.css" rel="stylesheet" />
-        
-    </head>
-    <body>
-        <div class="container">
-            <a href="/">Home</a>
-            ${heading}
-            <div>
-                ${date}
+function createTemplete (data){
+    var title=data.title;
+    var date=data.date;
+    var heading=data.heading;
+    var content=data.content;
+    var htmltemplete =`
+        <html>
+        <head>
+            ${title}
+            <meta name=viewport content="width-device-width, initial-scale-1" />
+            <link href="/ui/style.css" rel="stylesheet" />
+            
+        </head>
+        <body>
+            <div class="container">
+                <a href="/">Home</a>
+                ${heading}
+                <div>
+                    ${date}
+                </div>
+                <div>
+                    ${content}
+                </div>
             </div>
-            <div>
-                ${content}
-            </div>
-        </div>
-    </body>
-</html>
-
-
-`;
+        </body>
+    </html>
+    
+    
+    `;
+}
 
 app.get('/', function (req, res) {
   res.sendFile(path.join(__dirname, 'ui', 'index.html'));
