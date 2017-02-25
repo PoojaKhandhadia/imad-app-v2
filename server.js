@@ -28,9 +28,23 @@ var articles = {
             date:'02-02-00',
             content:` 
                         <p>
-                            This is the content for my second article.
+                            This is the content for my first article.This is the content for my first article.This is the content for my first article.This is the content for my first article.This is the content for my first article.This is the content for my first article.This is the content for my first article.This is the content for my first article.This is the content for my first article.This is the content for my first article.This is the content for my first article.This is the content for my first article.This is the content for my first article.This is the content for my first article.This is the content for my first article.
                         </p>
-    },
+                        <p>
+                            This is the content for my first article.This is the content for my first article.This is the content for my first article.This is the content for my first article.This is the content for my first article.This is the content for my first article.This is the content for my first article.This is the content for my first article.This is the content for my first article.
+                        </p>
+                        <p>
+                            This is the content for my first article.This is the content for my first article.This is the content for my first article.This is the content for my first article.This is the content for my first article.This is the content for my first article.This is the content for my first article.This is the content for my first article.
+                        </p>
+                    `
+            
+            
+            
+            
+            
+            
+            
+                },
     articleThree :{
         
     }
@@ -42,7 +56,7 @@ function createTemplete (data){
     var heading=data.heading;
     var content=data.content;
     var htmlTemplete =`
-        <html> 
+     <html> 
         <head>
             
             <meta name=viewport content="width-device-width, initial-scale-1" />
@@ -63,9 +77,9 @@ function createTemplete (data){
             </div>
         </body>
     </html>
+       `
     
-    
-    `;
+    ;
     return htmlTemplete;
 }
 
