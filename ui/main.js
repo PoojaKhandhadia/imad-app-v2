@@ -1,4 +1,4 @@
-/*console.log('Loaded!');
+console.log('Loaded!');
 
 //change the text of main-text div
 
@@ -18,7 +18,7 @@ function moveRight(){
 img.onclick=function(){
     var interval = setInterval(moveRight,50);
     
-};*/
+};
 
 //Button counter code
 
