@@ -80,7 +80,7 @@ submit.onclick = function() {
     var nameInput = document.getElementById("name");
     var name1 = nameInput.value;  
   // Make a request
-  request.open ('GET' , 'http://poojakhandhadia.imad.hasura-app.io/submit-name?name1=' +name1, true);
+  request.open ('GET' , 'http://poojakhandhadia.imad.hasura-app.io/submit-name?name=' +name1, true);
   request.send(null);
 }; 
     // Capture a list of names and render it as a list
