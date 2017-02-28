@@ -65,7 +65,7 @@ submit.onclick = function() {
         if(request.status === 200)
         {
             var names= request.responseText; // getting a string n need to be converted to object
-            names = JOSN.parse(names); // converting string to array/obj
+            names = JSON.parse(names); // converting string to array/obj
     var list = '';
     for(var i=0 ; i<names.length ; i++)
     {
