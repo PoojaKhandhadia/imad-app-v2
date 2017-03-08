@@ -8,7 +8,7 @@ var config = {
     database : 'poojakhandhadia',
     host : 'db.imad.hasura-app.io',
     port : '5432',
-    password : db-poojakhandhadia-6092 // DB_PASSWORD is an enviornment variable,cz if we enter the password here anyone can see it
+    password : process.env.DB_PASSWORD // DB_PASSWORD is an enviornment variable,cz if we enter the password here anyone can see it
 };
 var app = express();
 app.use(morgan('combined'));
