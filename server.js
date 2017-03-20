@@ -2,21 +2,24 @@ var express = require('express');
 var morgan = require('morgan');
 var path = require('path');
 var Pool=require('pg').Pool;
+var crypto=require('crypto');
+var bodyParser = require('body-parser');
 
-/*var config = {
+var config = {
     user : 'poojakhandhadia',
     database : 'poojakhandhadia',
     host : 'db.imad.hasura-app.io',
     port : '5432',
-    password : process.env.DB_PASSWORD // DB_PASSWORD is an enviornment variable,cz if we enter the password here anyone can see it
-};*/
+    password :'db-poojakhandhadia-6092'// DB_PASSWORD is an enviornment variable,cz if we enter the password here anyone can see it
+};
 var app = express();
 app.use(morgan('combined'));
+app.use(bodyParser.json());
 
 
 /*var articles = {
-    articleOne : {
-            title :'Article one',
+    'article-one' : {
+            title :'Article one | Pooja Khandhadia',
             heading:'article one',
             date:'01-01-00',
             content:` 
@@ -31,67 +34,90 @@ app.use(morgan('combined'));
                         </p>
                     `
                 },
-    articleTwo :{
-        title :'Article two',
+    'article-two' : {
+            title :'Article two | Pooja Khandhadia',
             heading:'article two',
             date:'02-02-00',
             content:` 
                         <p>
                             This is the content for my second article.This is the content for my second article.This is the content for my second article.
                         </p>
-                        
                     `
-            
-            
-            
-            
-            
-            
-            
                 },
-    articleThree :{
-        
-    }
-};
+    'article-three' : {
+            title :'Article three | Pooja Khandhadia',
+            heading:'article three',
+            date:'02-02-00',
+            content:` 
+                        <p>
+                            This is the content for my third article.This is the content for my third article.This is the content for my third article.
+                        </p>
+                    `
+                }
+
+   
+};*/
 
 function createTemplete (data){
     var title=data.title;
     var date=data.date;
     var heading=data.heading;
     var content=data.content;
-    var htmlTemplete =`
-     <html> 
+    var htmlTemplete =
+     `<html> 
         <head>
-            
-            <meta name=viewport content="width-device-width, initial-scale-1" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <link href="/ui/style.css" rel="stylesheet" />
            <title> ${title} </title>
-            
         </head>
         <body>
-            <div class="container">
+            <div class ="container">
                 <a href="/">Home</a>
                 ${heading}
                 <div>
-                    ${date}
+                    ${date.toDateString()}
                 </div>
                 <div>
                     ${content}
                 </div>
             </div>
         </body>
-    </html>
-       `
-    
-    ;
+    </html>`;
     return htmlTemplete;
 }
-*/
 app.get('/', function (req, res) {
   res.sendFile(path.join(__dirname, 'ui', 'index.html'));
 });
 
-/*var pool = new Pool(config);
+function hash(input,salt){
+  // How to create a hash ?
+  var hashed = crypto.pbkdf2Sync(input , salt , 10000 , 512 , 'sha512');
+  return hashed.toString('hex');
+}
+
+app.get('/hash/:input' , function(req,res){
+  var hashedString = hash(req.params.input , 'this-is-a-random-string');
+  res.send(hashedString);
+});
+
+app.post('/create-user', function (req, res) {
+   // username, password
+   // {"username": "tanmai", "password": "password"}
+   // JSON
+   var username = req.body.username;
+   var password = req.body.password;
+   var salt = crypto.randomBytes(128).toString('hex');
+   var dbString = hash(password, salt);
+   pool.query('INSERT INTO "user" (username, password) VALUES ($1, $2)', [username, dbString], function (err, result) {
+      if (err) {
+          res.status(500).send(err.toString());
+      } else {
+          res.send('User successfully created: ' + username);
+      }
+   });
+});
+
+var pool = new Pool(config);
 app.get('/test-db', function(req,res){
    // make a select request
    //return a response with the results
@@ -103,25 +129,34 @@ app.get('/test-db', function(req,res){
           res.send(JSON.stringify(result.rows));
       }
    });
-});*/
+});
 
 var counter = 0;
 app.get('/counter' , function(req , res){
    counter = counter + 1;
    res.send(counter.toString());
 });
-app.get('/article-one', function(req , res){
-    res.send(createTemplete(articles[articleOne]));
+app.get('/articles/:articleName', function(req , res){
+	// articleName = article-one
+	//articles[articleName] = {} content of article-one
+	pool.query("SELECT * from article WHERE title = $1",[ req.params.articleName] ,function(err,result){
+
+		if(err){
+			res.status(500).send(err.toString());
+		}
+		else{
+			if(result.rows.length == 0){
+				res.status(404).send('Article one not found');
+			}
+			else{
+				var articleData = result.rows[0];
+				res.send(createTemplete(articleData));
+			}
+		}
+	});
 });
 
-app.get('/article-two', function(req , res){
-    res.send(createTemplete(articleTwo));
-});
 
-
-app.get('/article-three', function(req , res){
-    res.send(createTemplete(articleThree));
-});
 
 app.get('/ui/style.css', function (req, res) {
   res.sendFile(path.join(__dirname, 'ui', 'style.css'));
